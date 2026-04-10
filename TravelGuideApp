@@ -1,0 +1,90 @@
+package com.example.myapplication
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.myapplication.ui.theme.MyApplicationTheme
+import kotlinx.coroutines.delay
+
+class CA1TravelGuideApp : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApplicationTheme {
+                App()
+            }
+        }
+    }
+}
+
+@Composable
+fun App() {
+    var splash by remember { mutableStateOf(true) }
+
+    if (splash) {
+        ShowSplash {
+            splash = false
+        }
+    } else {
+        ShowTourists()
+    }
+}
+
+@Composable
+fun ShowSplash(onDismiss: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(2000)
+        onDismiss()
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("Travel Guide App", fontSize = 24.sp)
+    }
+}
+
+@Composable
+fun ShowTourists() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+
+            LazyRow {
+
+                items(
+                    listOf(
+                        listOf("India"),
+                        listOf("New York"),
+                        listOf("Mumbai"),
+                        listOf("America"),
+                        listOf("Delhi"),
+                        listOf("London"),
+                        listOf("Paris")
+                    )
+                ) { list ->
+
+                    Column(
+                        modifier = Modifier.padding(10.dp)
+                    ) {
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(list[0])
+                        }
+                    }
+                }
+            }
+        }
+    }
+
